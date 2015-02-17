@@ -28,7 +28,7 @@ page = Capybara.current_session
     properties = data.css('dl.hlisting')
     # Print this list in console
     puts "--------------PAGINA #{count}------------------"
-      # Getting information for each propertie inside the list
+    # Getting information for each propertie inside the list
     # Start an each_with_index loop to iterate through each property
     properties.each_with_index do |property, index| 
       puts "--------------Propiedad #: #{index+1}-----------------"
