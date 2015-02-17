@@ -26,7 +26,7 @@ propertie_counter = 1
 # Define Capybara object as our page
 page = Capybara.current_session
 
-  loop do
+  2.times do
     # Parse the mechanize objetct
     data = Nokogiri::HTML(page.html)
     # Find the 16 properties in the list with Nokogiri
@@ -40,7 +40,8 @@ page = Capybara.current_session
       # Find the WEB address for each property
       property_site = property.at_css('div.propertyInfo>a:nth-child(3)').attr('href')
       # MARKET
-      puts "1. Mercado: #{property.at_css('.offer').text.strip}"
+      market = property.at_css('.offer').text.strip
+      puts "1. Mercado: #{market}"
       # TYPE
       puts "2. Tipo: #{property.at_css('.propertyInfo>a:nth-child(3) h2 span').text.strip}"
       # DATE
@@ -56,7 +57,9 @@ page = Capybara.current_session
         city = property_site.split('en-')[1].split('-')[0].to_s
         puts "5. Ciudad: #{city.capitalize}"
       else
-        puts "5. Ciudad: Hay que buscarla Sebitas"
+        location = property.at_css('div.propertyInfo>a:nth-child(3) h2 span.location').text.strip
+        city = location.split(', ')[1].to_s
+        puts "5. Ciudad: #{city}"
       end      
       # NEIGHBORHOOD
       barrio = property.at_css('.propertyInfo>a:nth-child(3) h2 span:nth-child(3)').text.strip
@@ -70,8 +73,14 @@ page = Capybara.current_session
         puts "7. Area Construida: Area no disponible"
       end
       # PROPERTY VALUE
-      value = property.at_css('.propertyInfo>a:nth-child(3) dd i').text.strip.tr('$,.','').to_i
-      puts "8. Valor Propiedad: #{value} Pesos"
+      if market == "Venta y Arriendo"
+        value = property.at_css('.propertyInfo>a:nth-child(3) dd i').text.strip.tr('$,.','').to_i
+        puts "8. Valor Propiedad en Venta: #{value} Pesos"
+        puts "NOTA: Esta propiedad es Venta Y Arriendo, falta por buscar el precio para arrendar, posiblemente en la URL"
+      else
+        value = property.at_css('.propertyInfo>a:nth-child(3) dd i').text.strip.tr('$,.','').to_i
+        puts "8. Valor Propiedad en Venta: #{value} Pesos"
+      end
       # VALUE SQUARE METER
       if area === 0
         puts "9. Valor metro cuadrado: No disponible"
