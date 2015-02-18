@@ -1,6 +1,6 @@
 namespace :metro2 do
 	
-	task :search do #Con enviroment se permite acceso a todos los modelos de rails
+	task :search => :environment do #Con enviroment se permite acceso a todos los modelos de rails
 		require 'capybara'
 		require 'nokogiri'
 		require 'capybara-webkit'
@@ -94,8 +94,8 @@ namespace :metro2 do
 		      end    
 		      # NUMBER OF ROOMS
 		      if property_site.include?('-habitaciones-')
-		        habitaciones = property_site.split('-habitaciones')[0].slice(-1).to_i
-		        puts "10. Numero de Habitaciones: #{habitaciones} habitaciones"
+		        rooms = property_site.split('-habitaciones')[0].slice(-1).to_i
+		        puts "10. Numero de Habitaciones: #{rooms} habitaciones"
 		      else
 		        puts "10. Numero de Habitaciones: No disponible"
 		      end
@@ -108,6 +108,7 @@ namespace :metro2 do
 		        puts "11. Codigo de propiedad: #{id_web}"
 		      end        
 		      # DAYS OF ROTATION
+		      rotation_days = 0
 		      puts "12. Dias de rotación ---> NOTA: Dato que asignamos internamente dentro de la aplicación "
 		      # PROPERTY WEB SITE
 		      puts "13. Sitio Web de la propiedad: #{property_site}"
@@ -115,6 +116,7 @@ namespace :metro2 do
 		      puts "14. Recurso: #{source}"
 		      propertie_counter+=1
 		      puts ""
+		      Property.create(market:market,property_type:property_type,date:Time.now,stratum:stratum,city:city,neighborhood:neighborhood,built_area:area,sale_value:value,meter_squared_value:value_mt2,rooms_number:rooms,property_code: id_web,rotation_days:rotation_days,url:property_site,source:source)		      
 		    end
 		    puts ""
 		    page_counter+=1

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150218143521) do
+ActiveRecord::Schema.define(version: 20150218144324) do
 
   create_table "properties", force: :cascade do |t|
     t.string   "market"
@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 20150218143521) do
     t.integer  "stratum"
     t.string   "city"
     t.string   "neighborhood"
-    t.integer  "buitl_area"
+    t.integer  "built_area"
     t.integer  "sale_value"
     t.integer  "meter_squared_value"
     t.integer  "rooms_number"
