@@ -90,29 +90,29 @@ namespace :metro2 do
 		        puts "9. Valor metro cuadrado: No disponible"
 		      else
 		        value_mt2 = value/area
-		        puts "10. Valor metro cuadrado: #{value_mt2} Pesos"
+		        puts "9. Valor metro cuadrado: #{value_mt2} Pesos"
 		      end    
 		      # NUMBER OF ROOMS
 		      if property_site.include?('-habitaciones-')
 		        habitaciones = property_site.split('-habitaciones')[0].slice(-1).to_i
-		        puts "11. Numero de Habitaciones: #{habitaciones} habitaciones"
+		        puts "10. Numero de Habitaciones: #{habitaciones} habitaciones"
 		      else
-		        puts "11. Numero de Habitaciones: No disponible"
+		        puts "10. Numero de Habitaciones: No disponible"
 		      end
 		      # PROPERTY CODE
 		      if property_site.include?('-id-')
 		        id_web = property_site.split('-id-')[1]
-		        puts "12. Codigo de propiedad: #{id_web}"
+		        puts "11. Codigo de propiedad: #{id_web}"
 		      elsif property_site.include?('idInmueble=')
 		        id_web = property_site.split('idInmueble=')[1]
-		        puts "12. Codigo de propiedad: #{id_web}"
+		        puts "11. Codigo de propiedad: #{id_web}"
 		      end        
 		      # DAYS OF ROTATION
-		      puts "13. Dias de rotación ---> NOTA: Dato que asignamos internamente dentro de la aplicación "
+		      puts "12. Dias de rotación ---> NOTA: Dato que asignamos internamente dentro de la aplicación "
 		      # PROPERTY WEB SITE
-		      puts "14. Sitio Web de la propiedad: #{property_site}"
+		      puts "13. Sitio Web de la propiedad: #{property_site}"
 		      # WEB RESOURCE
-		      puts "15. Recurso: #{source}"
+		      puts "14. Recurso: #{source}"
 		      propertie_counter+=1
 		      puts ""
 		    end
