@@ -26,7 +26,7 @@ propertie_counter = 1
 # Define Capybara object as our page
 page = Capybara.current_session
 
-  5.times do
+  3.times do
     # Parse the mechanize objetct
     data = Nokogiri::HTML(page.html)
     # Find the 16 properties in the list with Nokogiri
