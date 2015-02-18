@@ -26,7 +26,7 @@ propertie_counter = 1
 # Define Capybara object as our page
 page = Capybara.current_session
 
-  2.times do
+  5.times do
     # Parse the mechanize objetct
     data = Nokogiri::HTML(page.html)
     # Find the 16 properties in the list with Nokogiri
@@ -96,10 +96,10 @@ page = Capybara.current_session
         puts "11. Numero de Habitaciones: No disponible"
       end
       # PROPERTY CODE
-      if property.include?('-id-')
+      if property_site.include?('-id-')
         id_web = property_site.split('-id-')[1]
         puts "12. Codigo de propiedad: #{id_web}"
-      elsif property.include?('idInmueble=')
+      elsif property_site.include?('idInmueble=')
         id_web = property_site.split('idInmueble=')[1]
         puts "12. Codigo de propiedad: #{id_web}"
       end        
