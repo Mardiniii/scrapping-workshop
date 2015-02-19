@@ -25,7 +25,7 @@ namespace :metro2 do
 		# Define Capybara object as our page
 		page = Capybara.current_session
 
-		  30.times do
+		  63.times do
 		    # Parse the mechanize objetct
 		    data = Nokogiri::HTML(page.html)
 		    # Find the 16 properties in the list with Nokogiri
@@ -116,7 +116,7 @@ namespace :metro2 do
 		      puts "14. Recurso: #{source}"
 		      propertie_counter+=1
 		      puts ""
-		      # Property.create(market:market,property_type:property_type,date:Time.now,stratum:stratum,city:city,neighborhood:neighborhood,built_area:area,sale_value:value,meter_squared_value:value_mt2,rooms_number:rooms,property_code: id_web,rotation_days:rotation_days,url:property_site,source:source)		      
+		      Property.create(market:market,property_type:property_type,date:Time.now,stratum:stratum,city:city,neighborhood:neighborhood,built_area:area,sale_value:value,meter_squared_value:value_mt2,rooms_number:rooms,property_code: id_web,rotation_days:rotation_days,url:property_site,source:source)		      
 		    end
 		    puts ""
 		    page_counter+=1
@@ -133,7 +133,7 @@ namespace :metro2 do
 		  end
 	end
 
-	task :review => :searchm2 do #Con esta linea siempre se ejecuta primer searchm2 antes de reviewm2
+	task :review do #Con esta linea siempre se ejecuta primer searchm2 antes de reviewm2
 		puts "Tarea para monitorear propiedades existentes"
 	end
 end
