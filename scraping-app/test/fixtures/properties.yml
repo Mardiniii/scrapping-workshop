@@ -1,0 +1,33 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  market: MyString
+  property_type: MyString
+  date: 2015-02-18 21:24:38
+  stratum: 1
+  city: MyString
+  neighborhood: MyString
+  built_area: 1
+  sale_value: 1
+  meter_squared_value: 1
+  rooms_number: 1
+  property_code: MyString
+  rotation_days: 1
+  url: MyString
+  source: MyString
+
+two:
+  market: MyString
+  property_type: MyString
+  date: 2015-02-18 21:24:38
+  stratum: 1
+  city: MyString
+  neighborhood: MyString
+  built_area: 1
+  sale_value: 1
+  meter_squared_value: 1
+  rooms_number: 1
+  property_code: MyString
+  rotation_days: 1
+  url: MyString
+  source: MyString

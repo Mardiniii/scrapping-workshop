@@ -9,7 +9,7 @@
 #  stratum             :integer
 #  city                :string
 #  neighborhood        :string
-#  buitl_area          :integer
+#  built_area          :integer
 #  sale_value          :integer
 #  meter_squared_value :integer
 #  rooms_number        :integer

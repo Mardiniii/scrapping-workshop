@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150218190052) do
+ActiveRecord::Schema.define(version: 20150219022438) do
 
   create_table "properties", force: :cascade do |t|
     t.string   "market"
@@ -21,28 +21,15 @@ ActiveRecord::Schema.define(version: 20150218190052) do
     t.string   "city"
     t.string   "neighborhood"
     t.integer  "built_area"
-    t.integer  "sale_value"
+    t.integer  "sale_value",          limit: 8
     t.integer  "meter_squared_value"
     t.integer  "rooms_number"
     t.string   "property_code"
     t.integer  "rotation_days"
     t.string   "url"
     t.string   "source"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
-  end
-
-  create_table "pruebas", force: :cascade do |t|
-    t.integer  "value"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
-    t.integer  "myint",      limit: 9
-  end
-
-  create_table "sorels", force: :cascade do |t|
-    t.integer  "edad",       limit: 8
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
   end
 
 end
