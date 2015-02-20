@@ -13,7 +13,6 @@ namespace :metro2 do
 		# Config Web Kit
 		Capybara.default_driver = :webkit
 		Capybara.javascript_driver = :webkit
-
 		browser = Capybara.current_session
 		# Open the site
 		browser.visit("/web/buscar/medellin")
@@ -25,7 +24,7 @@ namespace :metro2 do
 		# Define Capybara object as our page
 		page = Capybara.current_session
 
-		  63.times do
+		  1.times do
 		    # Parse the mechanize objetct
 		    data = Nokogiri::HTML(page.html)
 		    # Find the 16 properties in the list with Nokogiri
@@ -116,7 +115,20 @@ namespace :metro2 do
 		      puts "14. Recurso: #{source}"
 		      propertie_counter+=1
 		      puts ""
-		      Property.create(market:market,property_type:property_type,date:Time.now,stratum:stratum,city:city,neighborhood:neighborhood,built_area:area,sale_value:value,meter_squared_value:value_mt2,rooms_number:rooms,property_code: id_web,rotation_days:rotation_days,url:property_site,source:source)		      
+		      # Conditional to analize the scraped property
+		      if Property.exists?(:property_code => "#{id_web}")
+		      	puts ""
+		      	puts "Ya existe esta propiedad"
+		      	propertie = Property.find_by property_code: "#{id_web}"
+		      	propertie.rotation_days = propertie.rotation_days + 1
+		      	if propertie.sale_value != value
+		      		propertie.sale_value = value
+		      		puts "Esta propiedad cambio su valor"
+		      	end
+		      else
+		      	Property.create(market:market,property_type:property_type,date:Time.now,stratum:stratum,city:city,neighborhood:neighborhood,built_area:area,sale_value:value,meter_squared_value:value_mt2,rooms_number:rooms,property_code: id_web,rotation_days:rotation_days,url:property_site,source:source)
+		      	puts "Esta propiedad ha sido agregada"
+		      end
 		    end
 		    puts ""
 		    page_counter+=1
@@ -133,7 +145,31 @@ namespace :metro2 do
 		  end
 	end
 
-	task :review do #Con esta linea siempre se ejecuta primer searchm2 antes de reviewm2
-		puts "Tarea para monitorear propiedades existentes"
+	task :monitor => :environment do #Con esta linea siempre se ejecuta primer searchm2 antes de reviewm2
+		require 'capybara'
+		require 'nokogiri'
+		require 'capybara-webkit'
+		require 'selenium-webdriver'
+
+		# Capybara.current_driver = :selenium # Desactivate Selenium
+		Capybara.app_host = 'http://www.metrocuadrado.com'
+		Capybara.run_server = false
+		Capybara.default_wait_time = 5
+		# Config Web Kit
+		Capybara.default_driver = :webkit
+		Capybara.javascript_driver = :webkit
+		browser = Capybara.current_session
+		# Open the site
+		properties = Property.all
+		properties.each_with_index do |propertie,index|
+			puts "##{index+1} URL de propiedad: #{propertie.url}"
+			puts ""
+			browser.visit("#{propertie.url}")
+			# Define Capybara object as our page
+			page = Capybara.current_session
+			data = Nokogiri::HTML(page.html)
+			title = data.at_css('div.det_cajaResultados h1').text.strip
+			puts title
+		end
 	end
 end
