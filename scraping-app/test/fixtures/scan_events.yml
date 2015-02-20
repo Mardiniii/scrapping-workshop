@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: scan_events
+#
+#  id          :integer          not null, primary key
+#  property_id :integer
+#  event_type  :integer
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
+
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:

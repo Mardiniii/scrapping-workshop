@@ -119,15 +119,18 @@ namespace :metro2 do
 		      if Property.exists?(:property_code => "#{id_web}")
 		      	puts ""
 		      	puts "Ya existe esta propiedad"
-		      	propertie = Property.find_by property_code: "#{id_web}"
-		      	propertie.rotation_days = propertie.rotation_days + 1
-		      	if propertie.sale_value != value
-		      		propertie.sale_value = value
+		      	property = Property.find_by property_code: "#{id_web}"
+		      	property.rotation_days = property.rotation_days + 1
+		      	if property.sale_value != value
+		      		property.sale_value = value
 		      		puts "Esta propiedad cambio su valor"
 		      	end
 		      else
-		      	Property.create(market:market,property_type:property_type,date:Time.now,stratum:stratum,city:city,neighborhood:neighborhood,built_area:area,sale_value:value,meter_squared_value:value_mt2,rooms_number:rooms,property_code: id_web,rotation_days:rotation_days,url:property_site,source:source)
-		      	puts "Esta propiedad ha sido agregada"
+		      	property = Property.create(market:market,property_type:property_type,date:Time.now,stratum:stratum,city:city,neighborhood:neighborhood,built_area:area,sale_value:value,meter_squared_value:value_mt2,rooms_number:rooms,property_code: id_web,rotation_days:rotation_days,url:property_site,source:source)
+		      	if property.save
+		      		ScanEvent.create(property_id: property.id ,event_type: 0)		      		
+		      		puts "Esta propiedad ha sido agregada"		      		
+		      	end
 		      end
 		    end
 		    puts ""
