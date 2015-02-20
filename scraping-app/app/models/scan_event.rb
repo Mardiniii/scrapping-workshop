@@ -10,6 +10,6 @@
 #
 
 class ScanEvent < ActiveRecord::Base
-	enum event_type: [:new_propertie, :change_price, :removed_propertie]
+	enum event_type: [:new_property, :change_price, :removed_property]
   belongs_to :property
 end

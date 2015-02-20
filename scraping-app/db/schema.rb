@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150220020931) do
+ActiveRecord::Schema.define(version: 20150220215230) do
 
   create_table "properties", force: :cascade do |t|
     t.string   "market"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 20150220020931) do
     t.string   "source"
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
+    t.boolean  "published"
   end
 
   create_table "scan_events", force: :cascade do |t|
