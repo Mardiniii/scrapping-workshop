@@ -123,17 +123,18 @@ namespace :metro2 do
 		      	property.rotation_days = property.rotation_days + 1
 		      	if property.sale_value != value
 		      		property.sale_value = value
-		      		puts "Esta propiedad cambio su valor"
+		      		ScanEvent.create(property_id: property.id ,event_type: 1)	
+		      		puts "ACCION: Esta propiedad cambio su valor"
 		      	end
 		      else
 		      	property = Property.create(market:market,property_type:property_type,date:Time.now,stratum:stratum,city:city,neighborhood:neighborhood,built_area:area,sale_value:value,meter_squared_value:value_mt2,rooms_number:rooms,property_code: id_web,rotation_days:rotation_days,url:property_site,source:source)
 		      	if property.save
 		      		ScanEvent.create(property_id: property.id ,event_type: 0)		      		
-		      		puts "Esta propiedad ha sido agregada"		      		
+		      		puts "ACCION: Esta propiedad ha sido agregada"		
+		      		puts ""      		
 		      	end
 		      end
 		    end
-		    puts ""
 		    page_counter+=1
 		    # Conditional for next page
 		    if page.has_link?('Siguiente',:href => 'javascript:void(0);') # As long as there is still a nextpage link...
@@ -146,33 +147,5 @@ namespace :metro2 do
 		      break
 		    end
 		  end
-	end
-
-	task :monitor => :environment do #Con esta linea siempre se ejecuta primer searchm2 antes de reviewm2
-		require 'capybara'
-		require 'nokogiri'
-		require 'capybara-webkit'
-		require 'selenium-webdriver'
-
-		# Capybara.current_driver = :selenium # Desactivate Selenium
-		Capybara.app_host = 'http://www.metrocuadrado.com'
-		Capybara.run_server = false
-		Capybara.default_wait_time = 5
-		# Config Web Kit
-		Capybara.default_driver = :webkit
-		Capybara.javascript_driver = :webkit
-		browser = Capybara.current_session
-		# Open the site
-		properties = Property.all
-		properties.each_with_index do |propertie,index|
-			puts "##{index+1} URL de propiedad: #{propertie.url}"
-			puts ""
-			browser.visit("#{propertie.url}")
-			# Define Capybara object as our page
-			page = Capybara.current_session
-			data = Nokogiri::HTML(page.html)
-			title = data.at_css('div.det_cajaResultados h1').text.strip
-			puts title
-		end
 	end
 end
