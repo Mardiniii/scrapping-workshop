@@ -20,13 +20,19 @@ class Scanner
 		Capybara.javascript_driver = :webkit
 		browser = Capybara.current_session
 		# Open the site
-		browser.visit("/web/buscar/medellin")
+		browser.visit("/web/buscar/neiva")
 		# Define the source for all the properties
 		
 		# Define Capybara object as our page
 		page = Capybara.current_session
+		number_of_results = page.find('#rb_formOrdenar_numeroResultados').text.strip.tr('.','').to_i
+		number_of_pages = number_of_results/16 + 1
+		
+		puts "------------------------------------------------"
+		puts "El numero de resultados es: #{number_of_pages}"
+		puts "------------------------------------------------"
 
-	  5.times do
+	  number_of_pages.times do
 	    puts "--------------PAGINA #{@page_counter}------------------"
 	    process_page(page)
 	    @page_counter+=1
@@ -35,8 +41,9 @@ class Scanner
 	  # borrar propiedades no scaneadas
 	  properties = Property.where("updated_at < ? ", Date.current)
 	  properties.each do |property|
-	  	ScanEvent.create(property_id: property.id ,event_type: 2)
-	  	# property.destroy Instead of destroy the property, create a published column and change the boolean state
+	  	ScanEvent.create(property_id: property.id ,event_type: 2, old_price: property.sale_value)
+	  	property.published = false
+	  	property.save
 	  end
 	end
 
@@ -132,39 +139,40 @@ class Scanner
 		if property_site.include?('-id-')
 		  id_web = property_site.split('-id-')[1]
 		  puts "11. Codigo de propiedad: #{id_web}"
+		  # DAYS OF ROTATION
+		  rotation_days = 0
+		  puts "12. Dias de rotación ---> NOTA: Dato que asignamos internamente dentro de la aplicación "
+		  # PROPERTY WEB SITE
+		  puts "13. Sitio Web de la propiedad: #{property_site}"
+		  # WEB RESOURCE
+		  puts "14. Recurso: #{@source}"
+		  @propertie_counter+=1
+		  # Conditional to analize the scraped property
+		  if Property.exists?(:property_code => "#{id_web}")
+		  	puts "ACCION: Ya existe esta propiedad"
+		  	puts ""
+		  	property = Property.find_by property_code: "#{id_web}"
+		  	property.rotation_days = property.rotation_days + 1
+		  	property.save
+		  	if property.sale_value != value
+		  		ScanEvent.create(property_id: property.id ,event_type: 1,old_price: property.sale_value, new_price: value)	
+		  		property.sale_value = value
+		  		property.save
+		  		puts "ACCION: Esta propiedad cambio su valor"
+		  		puts ""
+		  	end
+		  else
+		  	property = Property.create(market:market,property_type:property_type,date:Time.now,stratum:stratum,city:city,neighborhood:neighborhood,built_area:area,sale_value:value,meter_squared_value:value_mt2,rooms_number:rooms,property_code: id_web,rotation_days:rotation_days,url:property_site,source:@source,published: true)
+		  	if property.save
+		  		ScanEvent.create(property_id: property.id ,event_type: 0, new_price: value)		      		
+		  		puts "ACCION: Esta propiedad ha sido agregada"		
+		  		puts ""      		
+		  	end
+		  end
 		elsif property_site.include?('idInmueble=')
 		  id_web = property_site.split('idInmueble=')[1]
 		  puts "11. Codigo de propiedad: #{id_web}"
+		  puts "Esta es una propiedad de turismo, por lo tanto no sera almacenada en la base de datos"
 		end        
-		# DAYS OF ROTATION
-		rotation_days = 0
-		puts "12. Dias de rotación ---> NOTA: Dato que asignamos internamente dentro de la aplicación "
-		# PROPERTY WEB SITE
-		puts "13. Sitio Web de la propiedad: #{property_site}"
-		# WEB RESOURCE
-		puts "14. Recurso: #{@source}"
-		@propertie_counter+=1
-		# Conditional to analize the scraped property
-		if Property.exists?(:property_code => "#{id_web}")
-			puts "ACCION: Ya existe esta propiedad"
-			puts ""
-			property = Property.find_by property_code: "#{id_web}"
-			property.rotation_days = property.rotation_days + 1
-			property.save
-			if property.sale_value != value
-				property.sale_value = value
-				property.save
-				ScanEvent.create(property_id: property.id ,event_type: 1)	
-				puts "ACCION: Esta propiedad cambio su valor"
-				puts ""
-			end
-		else
-			property = Property.create(market:market,property_type:property_type,date:Time.now,stratum:stratum,city:city,neighborhood:neighborhood,built_area:area,sale_value:value,meter_squared_value:value_mt2,rooms_number:rooms,property_code: id_web,rotation_days:rotation_days,url:property_site,source:@source)
-			if property.save
-				ScanEvent.create(property_id: property.id ,event_type: 0)		      		
-				puts "ACCION: Esta propiedad ha sido agregada"		
-				puts ""      		
-			end
-		end
 	end
 end
