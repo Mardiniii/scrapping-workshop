@@ -20,7 +20,7 @@ class Scanner
 		Capybara.javascript_driver = :webkit
 		browser = Capybara.current_session
 		# Open the site
-		browser.visit("/web/buscar/neiva")
+		browser.visit("/web/buscar/medellin")
 		# Define the source for all the properties
 		
 		# Define Capybara object as our page
