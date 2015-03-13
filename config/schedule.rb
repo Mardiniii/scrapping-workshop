@@ -19,6 +19,6 @@
 
 # Learn more: http://github.com/javan/whenever
 
-every 1.day, :at => '12:00 am' do
+every :day, :at => '12:00 am' do
   rake "metro2:search"
 end
