@@ -24,8 +24,6 @@ ActiveRecord::Schema.define(version: 20150313221417) do
     t.string   "city"
     t.string   "neighborhood"
     t.integer  "built_area"
-    t.integer  "sale_value",          limit: 8
-    t.integer  "meter_squared_value"
     t.integer  "rooms_number"
     t.string   "property_code"
     t.integer  "rotation_days"
@@ -34,6 +32,8 @@ ActiveRecord::Schema.define(version: 20150313221417) do
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
     t.boolean  "published"
+    t.integer  "sale_value",          limit: 8
+    t.integer  "meter_squared_value", limit: 8
   end
 
   create_table "scan_events", force: :cascade do |t|
