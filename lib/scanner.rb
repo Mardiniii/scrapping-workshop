@@ -1,6 +1,6 @@
 require 'capybara'
 require 'nokogiri'
-require 'capybara-webkit'
+require 'capybara/poltergeist'
 
 class Scanner
 	def initialize
@@ -10,6 +10,9 @@ class Scanner
 	end
 
 	def process_properties
+		Capybara.default_driver = :poltergeist
+		Capybara.javascript_driver = :poltergeist
+		Capybara.default_wait_time = 15
 		# Capybara.current_driver = :selenium # Desactivate Selenium
 		Capybara.app_host = 'http://www.metrocuadrado.com'
 		browser = Capybara.current_session

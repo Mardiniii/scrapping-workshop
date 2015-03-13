@@ -11,6 +11,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'capybara'
 gem 'nokogiri'
 gem 'capybara-webkit'
+gem 'poltergeist'
 gem 'selenium-webdriver'
 gem 'annotate'
 gem 'hirb'
