@@ -11,7 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150220220339) do
+ActiveRecord::Schema.define(version: 20150313221417) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "properties", force: :cascade do |t|
     t.string   "market"
@@ -42,6 +45,7 @@ ActiveRecord::Schema.define(version: 20150220220339) do
     t.integer  "new_price",   limit: 8
   end
 
-  add_index "scan_events", ["property_id"], name: "index_scan_events_on_property_id"
+  add_index "scan_events", ["property_id"], name: "index_scan_events_on_property_id", using: :btree
 
+  add_foreign_key "scan_events", "properties"
 end

@@ -16,21 +16,15 @@ gem 'selenium-webdriver'
 gem 'annotate'
 gem 'hirb'
 gem 'whenever', :require => false
+gem 'pg'
 
 group :development, :test do
   gem 'byebug'
   gem 'web-console', '~> 2.0'
   gem 'spring'
-  gem 'sqlite3'
-
   gem 'capistrano'
   gem 'capistrano-rails'
   gem 'capistrano-bundler'
   gem 'capistrano-rvm'
   gem 'capistrano-passenger'
-end
-
-group :production do
-	gem 'pg'
-	# gem 'rails_12factor'
 end

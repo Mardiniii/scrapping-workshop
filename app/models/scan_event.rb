@@ -7,6 +7,8 @@
 #  event_type  :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  old_price   :integer
+#  new_price   :integer
 #
 
 class ScanEvent < ActiveRecord::Base
