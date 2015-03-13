@@ -1,7 +1,6 @@
 require 'capybara'
 require 'nokogiri'
 require 'capybara-webkit'
-require 'selenium-webdriver'
 
 class Scanner
 	def initialize
@@ -13,12 +12,8 @@ class Scanner
 	def process_properties
 		# Capybara.current_driver = :selenium # Desactivate Selenium
 		Capybara.app_host = 'http://www.metrocuadrado.com'
-		Capybara.run_server = false
-		Capybara.default_wait_time = 5
-		# Config Web Kit
-		Capybara.default_driver = :webkit
-		Capybara.javascript_driver = :webkit
 		browser = Capybara.current_session
+		
 		# Open the site
 		browser.visit("/web/buscar/medellin")
 		# Define the source for all the properties
