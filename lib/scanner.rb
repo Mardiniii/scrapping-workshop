@@ -6,6 +6,7 @@ class Scanner
 	def initialize
 		@page_counter = 1
 		@propertie_counter = 1
+		# Define the source for all the properties
 		@source = "Metro Cuadrado"
 	end
 
@@ -19,15 +20,21 @@ class Scanner
 		
 		# Open the site
 		browser.visit("/web/buscar/medellin")
-		# Define the source for all the properties
-		
 		# Define Capybara object as our page
 		page = Capybara.current_session
+		# Open all the properties in metro2 from the colecction select
+		page.select "Todas las ciudades", :from => "mciudad", visible: false
+		# Wait for the load of the page
+		Timeout.timeout(Capybara.default_wait_time) do
+	  	loop until page.evaluate_script('jQuery.active').zero?
+		end
+		# Finding the number of properties in metro2
 		number_of_results = page.find('#rb_formOrdenar_numeroResultados').text.strip.tr('.','').to_i
+		# Finding the number of pages to iterate
 		number_of_pages = number_of_results/16 + 1
 		
 		puts "------------------------------------------------"
-		puts "El numero de resultados es: #{number_of_pages}"
+		puts "El numero de resultados es #{number_of_results} propiedades en #{number_of_pages} paginas"
 		puts "------------------------------------------------"
 
 	  number_of_pages.times do
