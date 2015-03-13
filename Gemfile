@@ -21,9 +21,15 @@ group :development, :test do
   gem 'web-console', '~> 2.0'
   gem 'spring'
   gem 'sqlite3'
+
+  gem 'capistrano'
+  gem 'capistrano-rails'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rvm'
+  gem 'capistrano-passenger'
 end
 
 group :production do
 	gem 'pg'
-	gem 'rails_12factor'
+	# gem 'rails_12factor'
 end
